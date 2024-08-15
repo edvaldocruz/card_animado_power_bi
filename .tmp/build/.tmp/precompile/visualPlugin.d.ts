@@ -1,0 +1,4 @@
+import powerbiVisualsApi from "powerbi-visuals-api";
+import IVisualPlugin = powerbiVisualsApi.visuals.plugins.IVisualPlugin;
+declare var multipleorganizationalcharts8F75BCC5F95D4FE6B080F13EC68EAEA4: IVisualPlugin;
+export default multipleorganizationalcharts8F75BCC5F95D4FE6B080F13EC68EAEA4;

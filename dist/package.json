@@ -1,0 +1,17 @@
+{
+		"version": "1.0.0.0",
+		"author": {"name":"Ed Smart BI","email":"edvaldo@edsmartbi.com.br"},
+		"resources": [
+			{
+				"resourceId": "rId0",
+				"sourceType": 5,
+				"file": "resources/multipleorganizationalcharts8F75BCC5F95D4FE6B080F13EC68EAEA4.pbiviz.json"
+			}
+		],
+		"visual": {"name":"multipleorganizationalcharts","displayName":"multiple organizational charts","guid":"multipleorganizationalcharts8F75BCC5F95D4FE6B080F13EC68EAEA4","visualClassName":"Visual","version":"1.0.0.0","description":"Organograma com função de multiplos","supportUrl":"www.edsmartbi.com.br","gitHubUrl":""},
+		"metadata": {
+			"pbivizjson": {
+				"resourceId": "rId0"
+			}
+		}
+	}

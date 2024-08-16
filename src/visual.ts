@@ -48,7 +48,7 @@ export class Visual implements IVisual {
 
         this.textGroup = this.svg.append("g")
             .attr("class", "text-group");
-    }
+    } 
 
     public update(options: VisualUpdateOptions) {
         // Limpar o conteúdo anterior

@@ -1,4 +1,4 @@
-# multipleorganizationalcharts
+# Card animado Power BI
 ### Visual Personalizado do Power BI
 
 Este projeto apresenta um visual personalizado para o Power BI, consistindo em um card animado. Este visual serve como uma base de desenvolvimento para demonstrar as possibilidades de criação e importação de visuais personalizados no Power BI.

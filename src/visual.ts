@@ -33,11 +33,11 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 import VisualUpdateOptions = powerbiVisualsApi.extensibility.visual.VisualUpdateOptions;
 import DataView = powerbiVisualsApi.DataView;
 import DataViewValueColumn = powerbiVisualsApi.DataViewValueColumn;
+import VisualObjectInstance = powerbiVisualsApi.VisualObjectInstance;
 
 export class Visual implements IVisual {
     private target: HTMLElement;
     private svg: d3.Selection<SVGElement, unknown, null, undefined>;
-    private textGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
 
     constructor(options: VisualConstructorOptions) {
         this.target = options.element;
@@ -45,70 +45,114 @@ export class Visual implements IVisual {
             .append("svg")
             .attr("width", "100%")
             .attr("height", "100%");
-
-        this.textGroup = this.svg.append("g")
-            .attr("class", "text-group");
-    } 
+    }
 
     public update(options: VisualUpdateOptions) {
         // Limpar o conteúdo anterior
         this.svg.selectAll("*").remove();
-        this.textGroup.remove();
 
-        // Adicionar SVG
+        // Dimensões dinâmicas
+        const width = options.viewport.width;
+        const height = options.viewport.height;
+
+        // Obter o valor da medida
+        let measureValue = "";
+        if (options.dataViews && options.dataViews[0]) {
+            const dataView = options.dataViews[0];
+            const measure = dataView.categorical?.values[0] as DataViewValueColumn;
+            if (measure && measure.values.length > 0) {
+                measureValue = measure.values[0].toString();
+            }
+        }
+
+        // Acessar as propriedades de formatação do objeto measureFormat
+        const settings = {
+            fontSize: this.getDefaultFontSize(),
+            color: this.getDefaultColor(),
+            fontFamily: this.getDefaultFontFamily()
+        };
+
+        if (options.dataViews[0].metadata.objects) {
+            const measureFormat = options.dataViews[0].metadata.objects["measureFormat"];
+
+            if (measureFormat) {
+                settings.fontSize = measureFormat["fontSize"] ? `${measureFormat["fontSize"]}px` : settings.fontSize;
+                settings.color = measureFormat["color"] ? (measureFormat["color"] as any).solid.color : settings.color;
+                settings.fontFamily = (measureFormat["fontFamily"] as string) || settings.fontFamily;
+            }
+        }
+
+        // Adicionar SVG com o valor da medida embutido
         const svgContent = `
             <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#b3cde0;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#6497b1;stop-opacity:1" />
-                </linearGradient>
-
-                <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#03396c;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#011f4b;stop-opacity:1" />
-                </linearGradient>
-
-                <path id="wave" d="M 0 50 Q 150 0, 300 50 T 600 50 T 900 50 T 1200 50 L 1200 100 L 0 100 Z" />
+                <clipPath id="clip0_1_55">
+                    <rect width="100%" height="100%" fill="white"/>
+                </clipPath>
             </defs>
-            <g>
-                <use xlink:href="#wave" fill="url(#grad1)" x="0">
-                    <animate attributeName="x" from="0" to="100" dur="5s" repeatCount="indefinite" />
-                </use>
-                <use xlink:href="#wave" fill="url(#grad2)" x="-100">
-                    <animate attributeName="x" from="-100" to="0" dur="5s" repeatCount="indefinite" />
-                </use>
+
+            <g clip-path="url(#clip0_1_55)">
+                <circle cx="41.4%" cy="50%" r="9.8%" stroke="#a3ecff" stroke-width="2.5%" fill="none">
+                    <animateTransform attributeName="transform" type="translate" from="0,0" to="-5.86%,-9.77%" dur="5s" begin="0s" repeatCount="indefinite" />
+                    <animate attributeName="r" from="9.8%" to="19.5%" dur="5s" begin="0s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" from="1" to="0" dur="5s" begin="0s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="54.7%" cy="59.4%" r="9.8%" stroke="#a4e3ff" stroke-width="2.1%" fill="none">
+                    <animateTransform attributeName="transform" type="translate" from="0,0" to="7.8%,-11.7%" dur="5s" begin="1s" repeatCount="indefinite" />
+                    <animate attributeName="r" from="9.8%" to="23.4%" dur="5s" begin="1s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" from="1" to="0" dur="5s" begin="1s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="50.4%" cy="67.2%" r="7.8%" stroke="#a3f9ff" stroke-width="1.8%" opacity="0.3433" fill="none">
+                    <animateTransform attributeName="transform" type="translate" from="0,0" to="-3.9%,-7.8%" dur="5s" begin="2s" repeatCount="indefinite" />
+                    <animate attributeName="r" from="7.8%" to="17.6%" dur="5s" begin="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" from="1" to="0" dur="5s" begin="2s" repeatCount="indefinite" />
+                </circle>
             </g>
         `;
 
         this.svg.html(svgContent);
 
-        // Adicionar o texto da medida
-        if (options.dataViews && options.dataViews[0]) {
-            const dataView = options.dataViews[0];
-            const measure = dataView.categorical?.values[0] as DataViewValueColumn;
-            if (measure && measure.values.length > 0) {
-                const value = measure.values[0];
+        // Adicionar o texto da medida com as propriedades de formatação
+        this.svg.append("text")
+            .attr("x", "50%")
+            .attr("y", "70%")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", settings.fontSize)
+            .attr("fill", settings.color)
+            .attr("font-family", settings.fontFamily)
+            .text(measureValue);
+    }
 
-                this.textGroup = this.svg.append("g")
-                    .attr("class", "text-group");
+    public enumerateObjectInstances(options: powerbiVisualsApi.EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | powerbiVisualsApi.VisualObjectInstanceEnumerationObject {
+        const instances: VisualObjectInstance[] = [];
 
-                this.textGroup.append("rect")  // Fundo temporário
-                    .attr("x", options.viewport.width / 2 - 50)
-                    .attr("y", options.viewport.height / 2 - 20)
-                    .attr("width", 100)
-                    .attr("height", 40)
-                    .attr("fill", "white")
-                    .attr("stroke", "black");
-
-                this.textGroup.append("text")
-                    .attr("x", options.viewport.width / 2)
-                    .attr("y", options.viewport.height / 2)
-                    .attr("text-anchor", "middle")
-                    .attr("dominant-baseline", "middle")
-                    .attr("font-size", "24px")
-                    .attr("fill", "#000000")
-                    .text(value.toString());
-            }
+        switch (options.objectName) {
+            case "measureFormat":
+                instances.push({
+                    objectName: "measureFormat",
+                    displayName: "Measure Format",
+                    properties: {
+                        fontSize: this.getDefaultFontSize(),
+                        color: this.getDefaultColor(),
+                        fontFamily: this.getDefaultFontFamily()
+                    },
+                    selector: null
+                });
+                break;
         }
+
+        return instances;
+    }
+
+    private getDefaultFontSize(): string {
+        return "24px";
+    }
+
+    private getDefaultColor(): string {
+        return "#000000";
+    }
+
+    private getDefaultFontFamily(): string {
+        return "sans-serif";
     }
 }

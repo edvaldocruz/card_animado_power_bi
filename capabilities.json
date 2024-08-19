@@ -50,6 +50,23 @@
                     }
                 }
             }
+        },
+        "measureFormat": {
+            "displayName": "Measure Format",
+            "properties": {
+                "fontSize": {
+                    "displayName": "Font Size",
+                    "type": { "numeric": true }
+                },
+                "color": {
+                    "displayName": "Color",
+                    "type": { "fill": { "solid": { "color": true } } }
+                },
+                "fontFamily": {
+                    "displayName": "Font Family",
+                    "type": { "text": true }
+                }
+            }
         }
     },
     "dataViewMappings": [

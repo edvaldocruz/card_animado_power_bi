@@ -13,7 +13,6 @@ Este projeto apresenta um visual personalizado para o Power BI, consistindo em u
 Veja abaixo uma demonstração do visual em ação:
 
 <img src="images/Card Circulos Crescentes.gif" alt="Animação de Círculos Crescentes" width="500"/>
- 00"/>
 
 ### Exemplo no Power BI Desktop
 

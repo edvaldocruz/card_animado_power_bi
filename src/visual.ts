@@ -84,24 +84,24 @@ export class Visual implements IVisual {
 
         // Adicionar SVG com o valor da medida embutido
         const svgContent = `
-            <defs>
-                <clipPath id="clip0_1_55">
-                    <rect width="100%" height="100%" fill="white"/>
-                </clipPath>
-            </defs>
 
-            <g clip-path="url(#clip0_1_55)">
-                <circle cx="41.4%" cy="50%" r="9.8%" stroke="#a3ecff" stroke-width="2.5%" fill="none">
+            <g>
+                <!-- Primeiro Círculo -->
+                <circle cx="76.4%" cy="50%" r="15.8%" stroke="#a3ecff" stroke-width="4.5%" fill="none">
                     <animateTransform attributeName="transform" type="translate" from="0,0" to="-5.86%,-9.77%" dur="5s" begin="0s" repeatCount="indefinite" />
                     <animate attributeName="r" from="9.8%" to="19.5%" dur="5s" begin="0s" repeatCount="indefinite" />
                     <animate attributeName="opacity" from="1" to="0" dur="5s" begin="0s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="54.7%" cy="59.4%" r="9.8%" stroke="#a4e3ff" stroke-width="2.1%" fill="none">
+
+                <!-- Segundo Círculo -->
+                <circle cx="88.7%" cy="59.4%" r="17.8%" stroke="#a4e3ff" stroke-width="3.1%" fill="none">
                     <animateTransform attributeName="transform" type="translate" from="0,0" to="7.8%,-11.7%" dur="5s" begin="1s" repeatCount="indefinite" />
                     <animate attributeName="r" from="9.8%" to="23.4%" dur="5s" begin="1s" repeatCount="indefinite" />
                     <animate attributeName="opacity" from="1" to="0" dur="5s" begin="1s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="50.4%" cy="67.2%" r="7.8%" stroke="#a3f9ff" stroke-width="1.8%" opacity="0.3433" fill="none">
+
+                <!-- Terceiro Círculo -->
+                <circle cx="84.4%" cy="57.2%" r="13.8%" stroke="#a3f9ff" stroke-width="2.8%" opacity="0.3433" fill="none">
                     <animateTransform attributeName="transform" type="translate" from="0,0" to="-3.9%,-7.8%" dur="5s" begin="2s" repeatCount="indefinite" />
                     <animate attributeName="r" from="7.8%" to="17.6%" dur="5s" begin="2s" repeatCount="indefinite" />
                     <animate attributeName="opacity" from="1" to="0" dur="5s" begin="2s" repeatCount="indefinite" />
@@ -113,8 +113,8 @@ export class Visual implements IVisual {
 
         // Adicionar o texto da medida com as propriedades de formatação
         this.svg.append("text")
-            .attr("x", "50%")
-            .attr("y", "70%")
+            .attr("x", "20%")
+            .attr("y", "28%")
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
             .attr("font-size", settings.fontSize)

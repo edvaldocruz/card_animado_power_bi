@@ -1,3 +1,5 @@
+
+
 /*
 *  Power BI Visual CLI
 *
@@ -56,14 +58,31 @@ export class Visual implements IVisual {
         const height = options.viewport.height;
 
         // Obter o valor da medida
-        let measureValue = "";
+        // Obter o valor da medida e do limite
+        let measureValue: number = 0;
+        let limitValue: number = 0;
         if (options.dataViews && options.dataViews[0]) {
             const dataView = options.dataViews[0];
+
+            // Measure Data
             const measure = dataView.categorical?.values[0] as DataViewValueColumn;
             if (measure && measure.values.length > 0) {
-                measureValue = measure.values[0].toString();
+                measureValue = measure.values[0] as number;
+            }
+
+            // Limite
+            const limit = dataView.categorical?.values[1] as DataViewValueColumn;
+            if (limit && limit.values.length > 0) {
+                limitValue = limit.values[0] as number;
             }
         }
+
+        // Formatar a medida para exibição com separador de milhar
+        const formattedMeasureValue = measureValue.toLocaleString();
+
+        // Determinar a cor do círculo com base na comparação entre Measure e Limite
+        // let circleColor = measureValue
+        let circleColor = measureValue > limitValue ? "red" : "#a3ecff";
 
         // Acessar as propriedades de formatação do objeto measureFormat
         const settings = {
@@ -83,11 +102,10 @@ export class Visual implements IVisual {
         }
 
         // Adicionar SVG com o valor da medida embutido
-        const svgContent = `
-
+        let svgContent = `
             <g>
                 <!-- Primeiro Círculo -->
-                <circle cx="76.4%" cy="50%" r="15.8%" stroke="#a3ecff" stroke-width="4.5%" fill="none">
+                <circle id="circle1" cx="76.4%" cy="50%" r="15.8%" stroke="#a3ecff" stroke-width="4.5%" fill="none">
                     <animateTransform attributeName="transform" type="translate" from="0,0" to="-5.86%,-9.77%" dur="5s" begin="0s" repeatCount="indefinite" />
                     <animate attributeName="r" from="9.8%" to="19.5%" dur="5s" begin="0s" repeatCount="indefinite" />
                     <animate attributeName="opacity" from="1" to="0" dur="5s" begin="0s" repeatCount="indefinite" />
@@ -111,6 +129,9 @@ export class Visual implements IVisual {
 
         this.svg.html(svgContent);
 
+        // Atualizar a cor do círculo baseado na medida
+        this.svg.select("#circle1").attr("stroke", circleColor);
+
         // Adicionar o texto da medida com as propriedades de formatação
         this.svg.append("text")
             .attr("x", "20%")
@@ -120,7 +141,7 @@ export class Visual implements IVisual {
             .attr("font-size", settings.fontSize)
             .attr("fill", settings.color)
             .attr("font-family", settings.fontFamily)
-            .text(measureValue);
+            .text(formattedMeasureValue);
     }
 
     public enumerateObjectInstances(options: powerbiVisualsApi.EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | powerbiVisualsApi.VisualObjectInstanceEnumerationObject {

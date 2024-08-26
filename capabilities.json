@@ -9,6 +9,11 @@
             "displayName": "Measure Data",
             "name": "measure",
             "kind": "Measure"
+        },
+        {
+            "displayName": "Limite",
+            "name": "limit",
+            "kind": "Measure"
         }
     ],
     "objects": {
@@ -85,6 +90,11 @@
                         {
                             "bind": {
                                 "to": "measure"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "limit"
                             }
                         }
                     ]

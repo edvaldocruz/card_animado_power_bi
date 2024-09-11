@@ -14,7 +14,7 @@ Veja abaixo uma demonstração do visual em ação:
 
 <img src="images/Card Circulos Crescentes.gif" alt="Animação de Círculos Crescentes" width="500"/>
 
-<video src="images/card animado.mp4" alt="Animação de Círculos Crescentes" width="500"> teste </video>
+<video src="images/card animado.mp4"  width="500">Animação de Círculos Crescentes </video>
 
 ### Exemplo no Power BI Desktop
 

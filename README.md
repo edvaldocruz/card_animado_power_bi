@@ -12,15 +12,8 @@ Este projeto apresenta um visual personalizado para o Power BI, consistindo em u
 
 Veja abaixo uma demonstração do visual em ação:
 
-<img src="images/Card Circulos Crescentes.gif" alt="Animação de Círculos Crescentes" width="500"/>
+<img src="images/card animado.gif" alt="Animação de Círculos Crescentes" width="500"/>
 
-[Assista ao vídeo]('images/card animado.mp4')
-
-### Exemplo no Power BI Desktop
-
-A imagem a seguir mostra como o visual é exibido no Power BI Desktop, juntamente com os campos de configuração disponíveis:
-
-<img src="images/Imagem Power BI Desktop.png" alt="Configuração no Power BI Desktop" width="500"/>
 
 ### Contribuições e Desenvolvimento
 
